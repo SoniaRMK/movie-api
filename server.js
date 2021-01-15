@@ -16,13 +16,14 @@ fs.appendFile('log.txt', 'URL:' + addr + '\nTimestamp: ' + new Date() + '\n\n', 
     } else {
       console.log('Added to log.');
     }
+
   });
 
 //this will check if the url includes 'documentation'
   if (q.pathname.includes('documentation')) {
-    filePath = (_dirname + '/documentation.html');
+    filePath = (__dirname + '/documentation.html');
   } else {
-    filePath = 'index.html';
+    filePath = '/Users/danielalange/movie_api/index.html';
   }
 
   fs. readFile(filePath, (err, data) => {
