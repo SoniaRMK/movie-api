@@ -23,7 +23,7 @@ fs.appendFile('log.txt', 'URL:' + addr + '\nTimestamp: ' + new Date() + '\n\n', 
   if (q.pathname.includes('documentation')) {
     filePath = (__dirname + '/documentation.html');
   } else {
-    filePath = '/Users/danielalange/movie_api/index.html';
+    filePath = 'index.html';
   }
 
   fs. readFile(filePath, (err, data) => {
