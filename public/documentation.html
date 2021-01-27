@@ -24,8 +24,9 @@ tr:nth-child(even) {
   <body>
     <h1>Documentation</h1>
     <p>This application will provide an array of information (pun intended) about movies
-      which will include: titles, genres, and directors. This application uses Express modules
-      and RESTful Api architecture. I will update this page as I add more code.</p>
+      which will include: titles with descriptions, genres, and directors. This application uses Express modules
+      and RESTful Api architecture with the the Node.js environment. In addition the app uses the no-sql database,
+      Mongodb, and uses Mongoose for the business logic and data consistency.</p>
   <br>
   <table style="width:100%">
     <tr>
@@ -42,53 +43,69 @@ tr:nth-child(even) {
       <td>none</td>
       <td>JSON object <br>
         [
-          {
-            title: 'Titanic',
-            director: 'James Cameron',
-            genre: 'disaster'
-          }, <br>
-          {
-            title: 'The Notebook',
-            director: 'Nick Cassavetes',
-            genre: 'romance'
+        {
+          Title: {type: String, required: true},
+          Description: {type: String, required: true},
+          Genre: {
+            Name: String,
+            Description: String
           },
+          Director: {
+            Name: String,
+            Bio: String
+          },
+          Actors: [String],
+          ImagePath: String,
+          Featured: Boolean
+        }, <br>
         ]
       </td>
     </tr>
     <tr>
       <td>Get data about single movie</td>
-      <td>/movies/[title]</td>
+      <td>/movies/:Title</td>
       <td>GET</td>
       <td>none</td>
       <td>JSON object <br>
-      {
-        title: 'Titanic',
-        director: 'James Cameron',
-        genre: 'disaster'
-      }
+        {
+          Title: {type: String, required: true},
+          Description: {type: String, required: true},
+          Genre: {
+            Name: String,
+            Description: String
+          },
+          Director: {
+            Name: String,
+            Bio: String
+          },
+          Actors: [String],
+          ImagePath: String,
+          Featured: Boolean
+        }
       </td>
     </tr>
     <tr>
       <td>Get data about genres</td>
-      <td>/genres</td>
+      <td>/movies/genres/:Name</td>
       <td>GET</td>
       <td>none</td>
       <td>JSON object(description) <br>
-        {
-          name: 'Romance',
-          description: 'The romance genre focuses on...'
+        Genre: {
+          Name: String,
+          Description: String
         }
       </td>
     </tr>
     <tr>
       <td>Get data about directors</td>
-      <td>/directors</td>
+      <td>/movies/directors/:Name</td>
       <td>GET</td>
       <td>none</td>
       <td>JSON object <br>
         {
-          name: 'Robert Zemeckis',
-          movies: 'Forest Gump, Cast Away, Flight...'
+          Director: {
+            Name: String,
+            Bio: String
         }
       </td>
     </tr>
@@ -97,38 +114,45 @@ tr:nth-child(even) {
       <td>/users</td>
       <td>POST</td>
       <td> JSON object <br>
-        { username: <br>
-          email adress: <br>
-          password: <br>
-          favorites: <br>
+        {
+          Username: {type: String, required: true},
+          Password: {type: String, required: true},
+          Email: {type: String, required: true},
+          Birthday: Date,
+          FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
         }
       </td>
       <td>text("new user added")</td>
     </tr>
     <tr>
       <td>Update user profile</td>
-      <td>/users/[username]</td>
+      <td>/users/:Username</td>
       <td>PUT</td>
-      <td>none</td>
+      <td>{
+        Username: {type: String, required: true},
+        Password: {type: String, required: true},
+        Email: {type: String, required: true},
+        Birthday: Date,
+      }</td>
       <td>text("profile updated")</td>
     </tr>
     <tr>
       <td>Add favorite movies (list)</td>
-      <td>/users/[username]/[favorites]</td>
+      <td>/users/users/:Username/Movies/:MovieID</td>
       <td>PUT</td>
       <td>none</td>
       <td>text("movie added")</td>
     </tr>
     <tr>
       <td>Remove favorite movies (list)</td>
-      <td>/users/[username]/[favorites]</td>
+      <td>/users/:Username/Movies/:MovieID</td>
       <td>DELETE</td>
       <td>none</td>
       <td>text("successfully deleted")</td>
     </tr>
     <tr>
       <td>Remove user profile</td>
-      <td>/users/[username]</td>
+      <td>/users/:Username</td>
       <td>DELETE</td>
       <td>none</td>
       <td>text("profile deleted")</td>
