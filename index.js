@@ -10,7 +10,10 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/test',
+//mongoose.connect('mongodb://localhost:27017/test',
+//{ useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connect(process.env.CONNECTION_URI,
 { useNewUrlParser: true, useUnifiedTopology: true });
 
 //set this to use "findOneAndUpdate" and "findOneAndRemove"
@@ -101,7 +104,7 @@ app.post('/users', [
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
-  ], passport.authenticate('jwt',
+  ],
 { session: false }), (req, res) => {
   let errors = validationResult(req);
 
